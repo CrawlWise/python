@@ -6,13 +6,16 @@ import ssl
 import smtplib
 import time
 
+
 class CheckCPUUsage():
     window_env = ""
     os_runing = ""
+
     def __init__(self):
         """
         This class is created to check the cpu utilization of my computer and triggered up an email telling my that my computer cpu has been overused. 
         """
+
     def ComputerProperties(self):
         print("\nYour computer informations\n")
         print(f'Run At: {datetime.now()}')
@@ -21,14 +24,13 @@ class CheckCPUUsage():
 
         return "Operating System: {}\nVersion: {}".format(os_type, os_version)
 
-
-    def GetCPUUtilization(self):
+    def get_cpu_utilization(self):
         capture_usage = ps.cpu_percent(1)
         return capture_usage
 
-    def Alert(self):
+    def alert(self):
         sender = "crawlerd01@gmail.com"
-        receiver = "femej95268@youke1.com"
+        receiver = "crawlerd01@gmail.com"
         sender_pass = 'plgbamdxnxovxdun'
         sender_subject = "CPU Utilization Notification"
         body = f"Your Computer CPU has been running above 5min"
@@ -43,27 +45,29 @@ class CheckCPUUsage():
 
         with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=mailContext) as smtp:
             smtp.login(sender, sender_pass)
-            smtp.sendmail(sender,receiver, em.as_string())
+            smtp.sendmail(sender, receiver, em.as_string())
 
 
+# Create awhile loop that monitors my CPU Utilization
 
-#Create a while loop that monitors my CPU Utilization
+check = CheckCPUUsage()
+print(check.ComputerProperties())
 while True:
     cpu_util = CheckCPUUsage()
-    CPUWatcher = cpu_util.GetCPUUtilization()
+    CPUWatcher = cpu_util.get_cpu_utilization()
     print(CPUWatcher, end="\r")
 
-    #checking if cpu has gone above 5%
+    # checking if cpu has gone above 5%
     if CPUWatcher > 5.0:
-        print(f"CPU IOP is running at, ({CPUWatcher})\n")
-        print("Checking if CPU usage has gone above '5.0%' minunte")
-
-        countdown = 5
-        for x in range(countdown, 0, -1):
-            print(x)
+        print(f"CPU IOP is running at, ({CPUWatcher}%)\n")
+        for x in range(5, 0, -1):
             time.sleep(1)
-            if x == 1:
-                print("CPU Utilization has gone above 5min percent")
-                alertMessage = CheckCPUUsage()
-                alertMessage.Alert()
-                break
+            print(f'Countdown Timer: {x}')
+
+        if cpu_util.get_cpu_utilization() > 5:
+            print(f'CPU iOPs has gone above 50% for more than 5min\nSending a mail to admin\n')
+            alertMessage = CheckCPUUsage()
+            alertMessage.alert()
+            print("Message sent Successfully")
+        else:
+            print("CPU Usage has return to Normal")
