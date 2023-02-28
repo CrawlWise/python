@@ -1,7 +1,17 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def index():
-    return "Welcome Mr Crawler"
+    return render_template("index.html")
+
+
+@app.route('/signin')
+def signin():
+    return render_template("signin.html")
+
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
