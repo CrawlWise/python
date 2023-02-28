@@ -1,0 +1,21 @@
+.container {
+    height: 100%;
+}
+.loginInfo{
+    border: 1px solid #21130d;
+    height: auto;
+}
+
+.pathurl {
+    border: 1px solid #21130d;
+    height: auto;
+}
+
+.sideNav{
+    border: 1px solid #21130d;
+    height: 80vh;
+}
+.directoryContentDisplay {
+    border: 1px solid #21130d;
+    height: 80vh;
+}
